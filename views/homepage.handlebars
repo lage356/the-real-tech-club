@@ -1,5 +1,7 @@
-<h2>This is the homepage</h2>
 
-{{#each data}}
-  <h3>{{name}}</h3>
+
+
+{{#each bloggers as |blog|}}
+<h3>{{blog.title}}</h3>
+<h5>Date posted:  {{blog.createdAt}}</h5>
 {{/each}}

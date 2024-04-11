@@ -1,42 +1,79 @@
-const router = require('express').Router();
-const { User } = require('../models');
-// const withAuth = require('../utils/auth');
+const router = require("express").Router();
+const { User, Blog, Comment } = require("../models");
+const withAuth = require("../utils/auth");
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const data = [
-      {
-        name: "Fernando"
-      },
-      {
-        name: "Vinnie"
-      },
-    ]
-
-    res.render('homepage', {
-      data,
-      // logged_in: req.session.logged_in,
+    const blogs = await Blog.findAll({
+      include: [
+        {
+          model: User,
+          attributes:['username'],
+        },
+      ],
     });
-  } catch (err) {
-    res.status(500).json(err);
+    
+
+    // Serialize data so the template can read it
+    const bloggers = blogs.map((project) => project.get({ plain: true }));
+    console.log(bloggers);
+
+    res.render("homepage", {
+      
+      bloggers,
+      logged_in: req.session.logged_in,
+    
+    });
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
-router.get('/about', (req, res)=> {
-  res.render('about')
+router.get('/blog/:id',async (req,res)=>{
+  try {
+    const blogs = await Blog.findByPk(req.params.id,{
+      include: [
+        {
+          model:User,
+          attributes: ['username'],
+        },
+      ],
+    });
+    const blogger = blogs.get({plain: true});
+    console.log(blogger);
+
+    res.render("blog",{
+      blogger,
+      logged_in: req.session.logged_in
+    });
+
+  } catch (error) {
+    res.status(500).json(error);
+  }
 })
 
-router.get('/login', (req,res)=> {
-  res.render('login')
-})
 
-// router.get('/login', (req, res) => {
-//   if (req.session.logged_in) {
-//     res.redirect('/');
-//     return;
-//   }
+module.exports = router;
 
-//   res.render('login');
-// });
+
+
+
+
+
+
+
+router.get("/dashboard", withAuth, (req, res) => {
+  res.render("dashboard");
+});
+
+router.get("/login", (req, res) => {
+  // If the user is already logged in, redirect the request to another route
+  if (req.session.logged_in) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("login");
+});
 
 module.exports = router;
