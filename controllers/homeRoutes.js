@@ -13,10 +13,9 @@ router.get("/", async (req, res) => {
       ],
     });
     
-
     // Serialize data so the template can read it
     const bloggers = blogs.map((project) => project.get({ plain: true }));
-    console.log(bloggers);
+    
 
     res.render("homepage", {
       
@@ -28,6 +27,41 @@ router.get("/", async (req, res) => {
     res.status(500).json(error);
   }
 });
+// This route takes the user to signup and renders it 
+router.get('/signup',async (req,res)=>{
+  try {
+    
+    if (req.session.logged_in) {
+      res.redirect("/");
+      return;
+    }
+    res.render("signup");
+
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+// This sends the user to dashboard in order to view all actual posts and to create a new post
+router.get('/dashboard',  async (req,res)=>{
+  try {
+    
+    res.render("dashboard");
+
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+
+router.get('/post', withAuth, async (req,res)=>{
+  try {
+   
+    res.render("post");
+
+  } catch (error) {
+    res.status(500).json(error);
+  }
+})
+
 
 router.get('/blog/:id',async (req,res)=>{
   try {
@@ -50,20 +84,6 @@ router.get('/blog/:id',async (req,res)=>{
   } catch (error) {
     res.status(500).json(error);
   }
-})
-
-
-module.exports = router;
-
-
-
-
-
-
-
-
-router.get("/dashboard", withAuth, (req, res) => {
-  res.render("dashboard");
 });
 
 router.get("/login", (req, res) => {
