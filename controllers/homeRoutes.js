@@ -8,79 +8,68 @@ router.get("/", async (req, res) => {
       include: [
         {
           model: User,
-          attributes:['username'],
+          attributes: ["username"],
         },
       ],
     });
-    
+
     // Serialize data so the template can read it
     const bloggers = blogs.map((project) => project.get({ plain: true }));
-    
-
+console.log(bloggers);
     res.render("homepage", {
-      
       bloggers,
       logged_in: req.session.logged_in,
-    
     });
   } catch (error) {
     res.status(500).json(error);
   }
 });
-// This route takes the user to signup and renders it 
-router.get('/signup',async (req,res)=>{
+// This route takes the user to signup and renders it
+router.get("/signup", async (req, res) => {
   try {
-    
     if (req.session.logged_in) {
       res.redirect("/");
       return;
     }
     res.render("signup");
-
   } catch (error) {
     res.status(500).json(error);
   }
-})
-// This sends the user to dashboard in order to view all actual posts and to create a new post
-router.get('/dashboard',  async (req,res)=>{
+});
+// // This sends the user to dashboard in order to view all actual posts and to create a new post
+// router.get("/dashboard", withAuth, async (req, res) => {
+//   try {
+//     res.render("dashboard", {
+//       logged_in: req.session.logged_in,
+//     });
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+
+// router.get("/post", withAuth, async (req, res) => {
+//   try {
+//     res.render("post");
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+
+router.get("/blog/:id", async (req, res) => {
   try {
-    
-    res.render("dashboard");
-
-  } catch (error) {
-    res.status(500).json(error);
-  }
-})
-
-router.get('/post', withAuth, async (req,res)=>{
-  try {
-   
-    res.render("post");
-
-  } catch (error) {
-    res.status(500).json(error);
-  }
-})
-
-
-router.get('/blog/:id',async (req,res)=>{
-  try {
-    const blogs = await Blog.findByPk(req.params.id,{
-      include: [
-        {
-          model:User,
-          attributes: ['username'],
-        },
-      ],
+    const blogs = await Blog.findByPk(req.params.id, {
+      include: [{
+        model: Comment,
+        include: [User]
+      }],
     });
-    const blogger = blogs.get({plain: true});
+    const blogger = blogs.get({ plain: true });
     console.log(blogger);
 
-    res.render("blog",{
+    res.render("singlePost", {
       blogger,
-      logged_in: req.session.logged_in
+      logged_in: req.session.logged_in,
     });
-
   } catch (error) {
     res.status(500).json(error);
   }

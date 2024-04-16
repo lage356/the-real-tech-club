@@ -1,5 +1,16 @@
-
-
 <div class="newPost">
-    <a href="/post"><button class="btn btn-primary" type="submit">+ New Post</button></a>
+    <a href="/dashboard/post"><button>+ New Post</button></a>
 </div>
+
+
+{{#each bloggers as |blog|}}
+<div>
+
+    <a href="/dashboard/edit/{{blog.id}}">
+        <h3>{{blog.title}}</h3>
+    </a>
+    <h5>Date posted: {{format_date blog.createdAt}}</h5>
+
+
+</div>
+{{/each}}

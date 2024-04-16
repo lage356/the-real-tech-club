@@ -16,3 +16,52 @@ header, .project:not(:last-child) {
   color: #065b83;
   text-decoration: underline;
 }
+
+/* Reset default margin and padding */
+body, h1, h2, h3, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f8f8f8; 
+}
+
+header {
+  background-color: #333; /* Header background color */
+  color: #fff; /* Header text color */
+  padding: 20px;
+}
+
+header h1 {
+  font-size: 24px; 
+  margin-bottom: 10px;
+}
+
+nav {
+  display: flex;
+}
+
+nav a, nav button {
+  color: #fff; /* Nav links/button text color */
+  text-decoration: none;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+nav a:hover, nav button:hover {
+  background-color: #555; /* Nav links/button hover background color */
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  background-color: #333; /* Footer background color */
+  color: #fff; /* Footer text color */
+  padding: 20px;
+  text-align: center;
+}

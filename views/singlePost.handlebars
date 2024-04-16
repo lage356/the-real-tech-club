@@ -1,0 +1,22 @@
+<div>
+
+ 
+    <h3>{{blogger.title}}</h3> 
+    <h5>Date posted: {{format_date blogger.createdAt}}</h5>
+
+    <p>{{blogger.content}}</p>
+   
+
+</div>
+
+
+{{#if logged_in}}
+<h1>comment form goes here</h1>
+{{/if}}
+
+<h3>Comments</h3>
+
+{{#each blogger.comments}}
+
+
+{{/each}}

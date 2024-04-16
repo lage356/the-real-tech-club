@@ -1,9 +1,9 @@
 {{#each bloggers as |blog|}}
 <div>
 
-    <a href="#">  
+    <a href="/blog/{{blog.id}}">  
     <h3>{{blog.title}}</h3> </a>
-    <h5>Date posted: {{blog.createdAt}}</h5>
+    <h5>Created by: {{blog.user.username}} on {{format_date blog.createdAt}}</h5>
    
 
 </div>

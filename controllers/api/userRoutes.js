@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
       res.status(200).json(userData);
     });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json({message: "wrong info"});
   }
 });
 
@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
     });
 
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json({message: 'could not log in'});
   }
 });
 
